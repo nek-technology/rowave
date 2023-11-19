@@ -34,17 +34,32 @@ do
 		local selected = selection:Get()[1]
 		if selected ~= nil then
 			if selected:IsA("ModuleScript") then
+				print("Enabled")
 				widgetsEnabled:set(true) -- POPUP
 				return selectedObject:set(selected)
 			end
 		else
+			print("disabled")
 			widgetsEnabled:set(false) -- CLOSE
 			return selectedObject:set(nil)
 		end
 	end)
 
+	local enableButton = ToolbarButton({
+		Toolbar = pluginToolbar,
+
+		ClickableWhenViewportHidden = true,
+		Name = "API",
+		ToolTip = "View Moonwave API",
+		Image = "",
+
+		[OnEvent("Click")] = function()
+			widgetsEnabled:set(not widgetsEnabled:get())
+		end,
+	})
+
 	Plugin.Unloading:Connect(Observer(widgetsEnabled):onChange(function()
-		widgetsEnabled:set(false)
+		enableButton:SetActive(widgetsEnabled:get(false))
 	end))
 
 	local function APIWidget(children)
@@ -86,7 +101,7 @@ do
 	end
 	APIWidget({
 		[Children] = {
-		-- DARK THIS IS WHERE WE EDIT AND ADD SHIT OK 
+			-- DARK THIS IS WHERE WE EDIT AND ADD SHIT OK
 		},
 	})
 end

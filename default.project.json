@@ -12,6 +12,10 @@
 				"Components": {
 					"$path": "Components"
 				}
+			},
+			"Test": {
+				"$className": "Folder",
+				"$path": "Test"
 			}
 		}
 	}
