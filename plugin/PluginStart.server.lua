@@ -22,33 +22,35 @@ local OnEvent = Fusion.OnEvent
 local Observer = Fusion.Observer
 
 do
+	local widgetsEnabled = Value(false)
+	local selection = game:GetService("Selection")
+	local selectedObject = Value()
+
 	local pluginToolbar = Toolbar({
 		Name = "rowave",
 	})
 
-	local widgetsEnabled = Value(false)
-
-	local enableButton = ToolbarButton({
-		Toolbar = pluginToolbar,
-
-		ClickableWhenViewportHidden = true,
-		Name = "API",
-		ToolTip = "View the API for your game",
-		Image = "",
-
-		[OnEvent("Click")] = function()
-			widgetsEnabled:set(not widgetsEnabled:get())
-		end,
-	})
+	selection.SelectionChanged:Connect(function()
+		local selected = selection:Get()[1]
+		if selected ~= nil then
+			if selected:IsA("ModuleScript") then
+				widgetsEnabled:set(true) -- POPUP
+				return selectedObject:set(selected)
+			end
+		else
+			widgetsEnabled:set(false) -- CLOSE
+			return selectedObject:set(nil)
+		end
+	end)
 
 	Plugin.Unloading:Connect(Observer(widgetsEnabled):onChange(function()
-		enableButton:SetActive(widgetsEnabled:get(false))
+		widgetsEnabled:set(false)
 	end))
 
 	local function APIWidget(children)
 		return Widget({
 			Id = game:GetService("HttpService"):GenerateGUID(),
-			Name = "View API",
+			Name = "API",
 
 			InitialDockTo = Enum.InitialDockState.Right,
 			InitialEnabled = false,
@@ -84,9 +86,7 @@ do
 	end
 	APIWidget({
 		[Children] = {
-			Label({
-				Text = 'Test',
-			}),
+		-- DARK THIS IS WHERE WE EDIT AND ADD SHIT OK 
 		},
 	})
 end
