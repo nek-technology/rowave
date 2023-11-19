@@ -32,8 +32,8 @@ do
 		Toolbar = pluginToolbar,
 
 		ClickableWhenViewportHidden = true,
-		Name = "IFE Installer",
-		ToolTip = "Install the IFE by South Pacific",
+		Name = "API",
+		ToolTip = "View the API for your game",
 		Image = "",
 
 		[OnEvent("Click")] = function()
