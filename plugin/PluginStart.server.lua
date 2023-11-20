@@ -49,15 +49,12 @@ do
 		Toolbar = pluginToolbar,
 
 		ClickableWhenViewportHidden = true,
-		Name = "API",
+		Name = "View API",
 		ToolTip = "View file's API",
 		Image = "",
 		Active = false,
-
-		[OnEvent("Click")] = function()
-			APIwidgetEnabled:set(not APIwidgetEnabled:get())
-		end,
 	})
+	
 	local ExplorerButton = ToolbarButton({
 		Toolbar = pluginToolbar,
 
