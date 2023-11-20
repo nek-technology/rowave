@@ -51,17 +51,17 @@ do
 		ClickableWhenViewportHidden = true,
 		Name = "View API",
 		ToolTip = "View file's API",
-		Image = "",
+		Image = "http://www.roblox.com/asset/?id=15413648547",
 		Active = false,
 	})
-	
+
 	local ExplorerButton = ToolbarButton({
 		Toolbar = pluginToolbar,
 
 		ClickableWhenViewportHidden = true,
 		Name = "Explorer",
 		ToolTip = "View Moonwave API",
-		Image = "",
+		Image = "http://www.roblox.com/asset/?id=15413655467",
 
 		[OnEvent("Click")] = function()
 			ExplorerEnabled:set(not ExplorerEnabled:get())
@@ -159,12 +159,6 @@ do
 		})
 	end
 	ExplorerWidget({
-		[Children] = {
-			Fusion.ForPairs(game:GetDescendants(), function(instance)
-				if instance:IsA("ModuleScript") then
-					
-				end
-			end),
-		},
+		[Children] = {},
 	})
 end
