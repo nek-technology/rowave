@@ -10,9 +10,9 @@ local ToolbarButton = require(PluginComponents.ToolbarButton)
 
 local StudioComponents = Components:FindFirstChild("StudioComponents")
 local ScrollFrame = require(StudioComponents.ScrollFrame)
+local Label = require(StudioComponents.Label)
 
 local Fusion = require(Packages.Fusion)
-
 local New = Fusion.New
 local Value = Fusion.Value
 local Children = Fusion.Children
@@ -22,7 +22,7 @@ local Observer = Fusion.Observer
 
 do
 	local APIwidgetEnabled = Value(false)
-	local ExplorerEnabled = Value(false) 
+	local ExplorerEnabled = Value(false)
 	local selection = game:GetService("Selection")
 	local selectedObject = Value()
 
@@ -50,8 +50,9 @@ do
 
 		ClickableWhenViewportHidden = true,
 		Name = "API",
-		ToolTip = "View Moonwave API",
+		ToolTip = "View file's API",
 		Image = "",
+		Active = false,
 
 		[OnEvent("Click")] = function()
 			APIwidgetEnabled:set(not APIwidgetEnabled:get())
@@ -61,12 +62,12 @@ do
 		Toolbar = pluginToolbar,
 
 		ClickableWhenViewportHidden = true,
-		Name = "API",
+		Name = "Explorer",
 		ToolTip = "View Moonwave API",
 		Image = "",
 
 		[OnEvent("Click")] = function()
-			APIwidgetEnabled:set(not APIwidgetEnabled:get())
+			ExplorerEnabled:set(not ExplorerEnabled:get())
 		end,
 	})
 
@@ -118,13 +119,12 @@ do
 		},
 	})
 
-	
 	local function ExplorerWidget(children)
 		return Widget({
 			Id = game:GetService("HttpService"):GenerateGUID(),
-			Name = "API",
+			Name = "Explorer",
 
-			InitialDockTo = Enum.InitialDockState.Right,
+			InitialDockTo = Enum.InitialDockState.Float,
 			InitialEnabled = false,
 			ForceInitialEnabled = false,
 			FloatingSize = Vector2.new(250, 200),
@@ -134,31 +134,40 @@ do
 			[OnChange("Enabled")] = function(isEnabled)
 				ExplorerEnabled:set(isEnabled)
 			end,
-			[Children] = ScrollFrame({
-				ZIndex = 1,
-				Size = UDim2.fromScale(1, 1),
-
-				CanvasScaleConstraint = Enum.ScrollingDirection.X,
-
-				UILayout = New("UIListLayout")({
-					SortOrder = Enum.SortOrder.LayoutOrder,
-					Padding = UDim.new(0, 7),
+			[Children] = {
+				Label({
+					Text = "Explorer",
 				}),
+				ScrollFrame({
+					ZIndex = 1,
+					Size = UDim2.fromScale(1, 1),
 
-				UIPadding = New("UIPadding")({
-					PaddingLeft = UDim.new(0, 5),
-					PaddingRight = UDim.new(0, 5),
-					PaddingBottom = UDim.new(0, 10),
-					PaddingTop = UDim.new(0, 10),
+					CanvasScaleConstraint = Enum.ScrollingDirection.X,
+
+					UILayout = New("UIListLayout")({
+						SortOrder = Enum.SortOrder.LayoutOrder,
+						Padding = UDim.new(0, 7),
+					}),
+
+					UIPadding = New("UIPadding")({
+						PaddingLeft = UDim.new(0, 5),
+						PaddingRight = UDim.new(0, 5),
+						PaddingBottom = UDim.new(0, 10),
+						PaddingTop = UDim.new(0, 10),
+					}),
+
+					[Children] = children,
 				}),
-
-				[Children] = children,
-			}),
+			},
 		})
 	end
 	ExplorerWidget({
 		[Children] = {
-			-- DARK THIS IS WHERE WE EDIT AND ADD SHIT OK
+			Fusion.ForPairs(game:GetDescendants(), function(instance)
+				if instance:IsA("ModuleScript") then
+					
+				end
+			end),
 		},
 	})
 end
