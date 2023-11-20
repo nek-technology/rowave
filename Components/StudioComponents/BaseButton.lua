@@ -21,7 +21,6 @@ local types = require(StudioComponentsUtil.types)
 local New = Fusion.New
 local Value = Fusion.Value
 local Children = Fusion.Children
-local Computed = Fusion.Computed
 local OnEvent = Fusion.OnEvent
 local Hydrate = Fusion.Hydrate
 
