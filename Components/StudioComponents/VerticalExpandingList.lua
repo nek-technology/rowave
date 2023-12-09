@@ -35,37 +35,39 @@ type VerticalExpandingListProperties = {
 return function(props: VerticalExpandingListProperties): Frame
 	local hydrateProps = stripProps(props, COMPONENT_ONLY_PROPERTIES)
 
-	local contentSize = Value(Vector2.new(0,0))
+	local contentSize = Value(Vector2.new(0, 0))
 
-	return Hydrate(
-		BoxBorder {
-			[Children] = Background {
-				ClipsDescendants = true,
-				Size = getMotionState(Computed(function()
+	return Hydrate(BoxBorder({
+		[Children] = Background({
+			ClipsDescendants = true,
+			Size = getMotionState(
+				Computed(function()
 					local mode = unwrap(props.AutomaticSize or Enum.AutomaticSize.Y) -- Custom autosize since engine sizing is unreliable
 					if mode == Enum.AutomaticSize.Y then
 						local s = unwrap(contentSize)
 						if s then
-							return UDim2.new(1,0,0,s.Y)
+							return UDim2.new(1, 0, 0, s.Y)
 						else
-							return UDim2.new(1,0,0,0)
+							return UDim2.new(1, 0, 0, 0)
 						end
 					else
-						return props.Size or UDim2.new(1,0,0,0)
+						return props.Size or UDim2.new(1, 0, 0, 0)
 					end
-				end), "Spring", 40),
+				end),
+				"Spring",
+				40
+			),
 
-				[Children] = New "UIListLayout" {
-					SortOrder = Enum.SortOrder.LayoutOrder,
-					FillDirection = Enum.FillDirection.Vertical,
+			[Children] = New("UIListLayout")({
+				SortOrder = Enum.SortOrder.LayoutOrder,
+				FillDirection = Enum.FillDirection.Vertical,
 
-					Padding = Computed(function()
-						return unwrap(props.Padding) or UDim.new(0, 10)
-					end),
+				Padding = Computed(function()
+					return unwrap(props.Padding) or UDim.new(0, 10)
+				end),
 
-					[Out "AbsoluteContentSize"] = contentSize,
-				}
-			}
-		}
-	)(hydrateProps)
+				[Out("AbsoluteContentSize")] = contentSize,
+			}),
+		}),
+	}))(hydrateProps)
 end

@@ -54,7 +54,9 @@ return function(props: VerticalExpandingListProperties): Frame
 		Enabled = isEnabled,
 		Hovering = isHovering,
 		Otherwise = Computed(function()
-			return if unwrap(themeProvider.IsDark) then Enum.StudioStyleGuideModifier.Default else Enum.StudioStyleGuideModifier.Pressed
+			return if unwrap(themeProvider.IsDark)
+				then Enum.StudioStyleGuideModifier.Default
+				else Enum.StudioStyleGuideModifier.Pressed
 		end),
 	})
 
@@ -68,14 +70,14 @@ return function(props: VerticalExpandingListProperties): Frame
 	local backgroundColor = themeProvider:GetColor(Enum.StudioStyleGuideColor.MainBackground)
 	local themeColorModifier = Computed(function()
 		local _, _, v = unwrap(backgroundColor):ToHSV()
-		return if v<.5 then -1 else 1
+		return if v < 0.5 then -1 else 1
 	end)
 
-	return Hydrate(VerticalExpandingList {
+	return Hydrate(VerticalExpandingList({
 		Name = "VerticalCollapsibleSection",
 		BackgroundTransparency = 1,
 		--TODO: remove this +2 once BorderMode becomes a thing for UIStroke
-		Size = UDim2.new(1, 0, 0, HEADER_HEIGHT+2),
+		Size = UDim2.new(1, 0, 0, HEADER_HEIGHT + 2),
 		Padding = props.Padding,
 
 		AutomaticSize = Computed(function()
@@ -85,32 +87,36 @@ return function(props: VerticalExpandingListProperties): Frame
 		[Children] = {
 			--TODO: remove this UIPadding and Frame once BorderMode becomes a thing for UIStroke
 			-- until then, this will need to stay here
-			New "UIPadding" {
+			New("UIPadding")({
 				Name = "BorderUIPadding",
 				PaddingRight = UDim.new(0, 1),
 				PaddingLeft = UDim.new(0, 1),
 				PaddingTop = UDim.new(0, 1),
 				PaddingBottom = UDim.new(0, 1),
-			},
-			New "Frame" {
+			}),
+			New("Frame")({
 				Name = "BorderBottomPadding",
-				LayoutOrder = 10^5,
+				LayoutOrder = 10 ^ 5,
 				BackgroundTransparency = 1,
 				Size = UDim2.new(1, 0, 0, 0),
-			},
-			
-			BoxBorder {
+			}),
+
+			BoxBorder({
 				Color = getMotionState(themeProvider:GetColor(Enum.StudioStyleGuideColor.Border), "Spring", 40),
 
-				[Children] = New "Frame" {
+				[Children] = New("Frame")({
 					Name = "CollapsibleSectionHeader",
 					LayoutOrder = 0,
 					Active = true,
 					Size = UDim2.new(1, 0, 0, HEADER_HEIGHT),
 
-					BackgroundColor3 = getMotionState(themeProvider:GetColor(Enum.StudioStyleGuideColor.HeaderSection, modifier), "Spring", 40),
+					BackgroundColor3 = getMotionState(
+						themeProvider:GetColor(Enum.StudioStyleGuideColor.HeaderSection, modifier),
+						"Spring",
+						40
+					),
 
-					[OnEvent "InputBegan"] = function(inputObject)
+					[OnEvent("InputBegan")] = function(inputObject)
 						if not unwrap(isEnabled) then
 							return
 						elseif inputObject.UserInputType == Enum.UserInputType.MouseMovement then
@@ -120,7 +126,7 @@ return function(props: VerticalExpandingListProperties): Frame
 						end
 					end,
 
-					[OnEvent "InputEnded"] = function(inputObject)
+					[OnEvent("InputEnded")] = function(inputObject)
 						if not unwrap(isEnabled) then
 							return
 						elseif inputObject.UserInputType == Enum.UserInputType.MouseMovement then
@@ -129,7 +135,7 @@ return function(props: VerticalExpandingListProperties): Frame
 					end,
 
 					[Children] = {
-						New "ImageLabel" {
+						New("ImageLabel")({
 							Name = "Icon",
 							AnchorPoint = Vector2.new(0, 0.5),
 							Position = UDim2.new(0, 7, 0.5, 0),
@@ -138,20 +144,24 @@ return function(props: VerticalExpandingListProperties): Frame
 							ImageRectSize = Vector2.new(10, 10),
 							BackgroundTransparency = 1,
 
-							ImageColor3 = getMotionState(Computed(function()
-								local baseColor = Color3.fromRGB(170, 170, 170)
-								if unwrap(isEnabled) then
-									return baseColor
-								end
-								local h, s, v = baseColor:ToHSV()
-								return Color3.fromHSV(h, s, math.clamp(v - .2, 0, 1))
-							end), "Spring", 40),
+							ImageColor3 = getMotionState(
+								Computed(function()
+									local baseColor = Color3.fromRGB(170, 170, 170)
+									if unwrap(isEnabled) then
+										return baseColor
+									end
+									local h, s, v = baseColor:ToHSV()
+									return Color3.fromHSV(h, s, math.clamp(v - 0.2, 0, 1))
+								end),
+								"Spring",
+								40
+							),
 
 							ImageRectOffset = Computed(function()
 								return Vector2.new(unwrap(isCollapsed) and 0 or 10, 0)
 							end),
-						},
-						Label {
+						}),
+						Label({
 							TextXAlignment = Enum.TextXAlignment.Left,
 							Size = UDim2.fromScale(1, 1),
 
@@ -159,24 +169,28 @@ return function(props: VerticalExpandingListProperties): Frame
 							Text = props.Text or "HeaderText",
 							TextSize = constants.TextSize,
 
-							TextColor3 = getMotionState(Computed(function()
-								local currentLabelColor = unwrap(props.TextColor3 or labelColor)
-								local themeModifier = unwrap(themeColorModifier)
-								if unwrap(isEnabled) then
-									return currentLabelColor
-								end
-								local h, s, v = currentLabelColor:ToHSV()
-								return Color3.fromHSV(h, s, math.clamp(v + .3 * themeModifier, 0, 1))
-							end), "Spring", 40),
+							TextColor3 = getMotionState(
+								Computed(function()
+									local currentLabelColor = unwrap(props.TextColor3 or labelColor)
+									local themeModifier = unwrap(themeColorModifier)
+									if unwrap(isEnabled) then
+										return currentLabelColor
+									end
+									local h, s, v = currentLabelColor:ToHSV()
+									return Color3.fromHSV(h, s, math.clamp(v + 0.3 * themeModifier, 0, 1))
+								end),
+								"Spring",
+								40
+							),
 
-							[Children] = New "UIPadding" {
+							[Children] = New("UIPadding")({
 								PaddingLeft = UDim.new(0, 24),
-							}
-						}
-					}
-				}
-			},
+							}),
+						}),
+					},
+				}),
+			}),
 			props[Children],
-		}
-	})(stripProps(props, COMPONENT_ONLY_PROPERTIES))
+		},
+	}))(stripProps(props, COMPONENT_ONLY_PROPERTIES))
 end

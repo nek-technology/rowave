@@ -12,6 +12,9 @@ local StudioComponents = Components:FindFirstChild("StudioComponents")
 local ScrollFrame = require(StudioComponents.ScrollFrame)
 local Label = require(StudioComponents.Label)
 
+local MoonwaveComponents = Components:FindFirstChild("MoonwaveComponents")
+local Class = require(MoonwaveComponents.Class)
+
 local Fusion = require(Packages.Fusion)
 local New = Fusion.New
 local Value = Fusion.Value
@@ -111,9 +114,7 @@ do
 		})
 	end
 	APIWidget({
-		[Children] = {
-			-- DARK THIS IS WHERE WE EDIT AND ADD SHIT OK
-		},
+		-- DARK THIS IS WHERE WE EDIT AND ADD SHIT OK
 	})
 
 	local function ExplorerWidget(children)
@@ -159,6 +160,9 @@ do
 		})
 	end
 	ExplorerWidget({
-		[Children] = {},
+		Class({}, {
+			ClassName = "MyFirstClass",
+			Description = "This is my first class",
+		}),
 	})
 end

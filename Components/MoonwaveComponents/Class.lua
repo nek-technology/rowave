@@ -8,10 +8,12 @@ local Children = Fusion.Children
 local COMPONENT_ONLY_PROPERTIES = {
 	"StudioStyleGuideColor",
 	"StudioStyleGuideModifier",
+	Children,
 }
 
-local StudioComponents = script.Parent.StudioComponents
+local StudioComponents = script.Parent.Parent.StudioComponents
 local StudioComponentsUtil = StudioComponents:FindFirstChild("Util")
+-- local themeProvider = require(StudioComponentsUtil.themeProvider)
 
 local stripProps = require(StudioComponentsUtil.stripProps)
 
@@ -20,15 +22,14 @@ local Label = require(StudioComponents.Label)
 local Title = require(StudioComponents.Title)
 local ScrollFrame = require(StudioComponents.ScrollFrame)
 
-return function(props)
+export type Variables = {
+	ClassName: string,
+	Description: string,
+}
+
+return function(props, vars: Variables)
 	local Class = Background({
 		[Children] = {
-			Title({
-				Text = props.ClassName,
-			}),
-			Label({
-				Text = props.Description,
-			}),
 			ScrollFrame({
 				ZIndex = 1,
 				Size = UDim2.fromScale(1, 1),
@@ -47,7 +48,16 @@ return function(props)
 					PaddingTop = UDim.new(0, 10),
 				}),
 
-				--     [Children] = ,
+				[Children] = {
+					Title({
+						Text = vars.ClassName,
+						TextSize = 35,
+					}),
+					Label({
+						Text = vars.Description,
+					}),
+					props[Children],
+				},
 			}),
 		},
 	})
