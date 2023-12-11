@@ -1,0 +1,26 @@
+{
+	"name": "rowave",
+	"tree": {
+	  	"$className": "DataModel",
+		"ReplicatedStorage": {
+			"$className": "ReplicatedStorage",
+			"Rowave": {
+				"$path": "src/",
+				"Packages": {
+					"$path": "Packages/"
+				}
+			}
+		},
+
+		"TestService": {
+			"$className": "TestService",
+            "$path": "test/",
+			"$properties": {
+				"ExecuteWithStudioRun": true,
+                "NumberOfPlayers": 0,
+                "SimulateSecondsLag": 0,
+                "Timeout": 10
+			}
+		}
+	}
+}

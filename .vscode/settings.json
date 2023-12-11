@@ -1,0 +1,13 @@
+{
+    "[lua]": {
+        "editor.defaultFormatter": "JohnnyMorganz.stylua",
+        "editor.formatOnSave": true
+    },
+    "[markdown]": {
+        "editor.formatOnSave": true,
+        "editor.formatOnPaste": true
+    },
+    "editor.codeActionsOnSave": {
+        "source.fixAll.markdownlint": "explicit"
+    },
+}

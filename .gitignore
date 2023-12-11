@@ -1,6 +1,14 @@
-# Project build file
-/*.rbxm
-/*.rbxmx
+# Roblox Studio files
+*.rbxlx
+*.rbxl
+*.rbxl.lock
+*.rbxm
 
-# VS Code files
-.vscode/*
+# Wally
+/Packages
+/DevPackages
+/ServerPackages
+
+# Build asset files
+/build
+test-out.txt
