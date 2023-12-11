@@ -3,7 +3,7 @@ local Moonwave = require(script.Parent.Moonwave)
 
 local Funtion = {}
 
---TODO: TEST THIS CODE LOL
+
 function Funtion:GetFunctions(source: table, classes: table): table
     local functions = {}
 	local function_ = {}

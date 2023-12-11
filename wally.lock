@@ -8,6 +8,6 @@ version = "0.2.0"
 dependencies = []
 
 [[package]]
-name = "metrics/rowave"
+name = "nek-technology/rowave"
 version = "0.1.0"
 dependencies = [["Fusion", "elttob/fusion@0.2.0"]]

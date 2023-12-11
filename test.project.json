@@ -1,0 +1,22 @@
+{
+	"name": "rowave",
+	"tree": {
+	  	"$className": "DataModel",
+		"ReplicatedStorage": {
+			"$className": "ReplicatedStorage",
+
+			"Plugin": {
+				"$className": "Folder",
+				"$path": "plugin",
+
+				"Components": {
+					"$path": "Components"
+				}
+			},
+			"Test": {
+				"$className": "Folder",
+				"$path": "Test"
+			}
+		}
+	}
+}
