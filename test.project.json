@@ -4,18 +4,22 @@
 	  	"$className": "DataModel",
 		"ReplicatedStorage": {
 			"$className": "ReplicatedStorage",
-
-			"Plugin": {
-				"$className": "Folder",
-				"$path": "plugin",
-
-				"Components": {
-					"$path": "Components"
+			"Rowave": {
+				"$path": "src/",
+				"Packages": {
+					"$path": "Packages/"
 				}
-			},
-			"Test": {
-				"$className": "Folder",
-				"$path": "Test"
+			}
+		},
+
+		"TestService": {
+			"$className": "TestService",
+            "$path": "test/",
+			"$properties": {
+				"ExecuteWithStudioRun": true,
+                "NumberOfPlayers": 0,
+                "SimulateSecondsLag": 0,
+                "Timeout": 10
 			}
 		}
 	}
