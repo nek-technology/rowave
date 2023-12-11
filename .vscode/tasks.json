@@ -1,0 +1,95 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "Update Wally Dependencies",
+            "command": "wally install",
+            "problemMatcher": [],
+            "runOptions": {
+                "instanceLimit": 1,
+            },
+            "promptOnClose": true,
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": true,
+                "panel": "dedicated",
+                "showReuseMessage": true,
+            },
+            "options": {
+                "statusbar": {
+                    "hide": true
+                }
+            },
+        },
+        {
+            "type": "shell",
+            "label": "Build Test Project",
+            "command": "rojo build test.project.json -o test.rbxl",
+            "problemMatcher": [],
+            "runOptions": {
+                "instanceLimit": 1,
+            },
+            "promptOnClose": true,
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": true,
+                "panel": "dedicated",
+                "showReuseMessage": true,
+            },
+            "options": {
+                "statusbar": {
+                    "hide": true
+                }
+            },
+        },
+        {
+            "type": "shell",
+            "label": "Run Tests",
+            "detail": "Run TestEZ tests",
+            "command": "./tests/test.sh",
+            "problemMatcher": [],
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Update Wally Dependencies",
+                "Build Test Project"
+            ],
+            "icon": {
+                "id": "run-all"
+            },
+            "runOptions": {
+                "instanceLimit": 1,
+            },
+            "promptOnClose": true,
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": true,
+                "panel": "dedicated",
+                "showReuseMessage": true,
+            },
+            "options": {
+                "statusbar": {
+                    "label" : "Roblox: Run Tests",
+                    "detail" : "Run TestEZ tests",
+                    "color" : "#22C1D6",
+                    "icon": {
+                        "id": "run-all"
+                    },
+                    "running": {
+                        "label": "Running Tests...",
+                        "color": "#d62222",
+                        "backgroundColor": "statusBarItem.warningBackground",
+                        "icon": {
+                            "id": "beaker"
+                        }
+                    },
+                }
+            },
+        }
+    ]
+}
