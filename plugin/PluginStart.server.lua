@@ -15,6 +15,7 @@ local Label = require(StudioComponents.Label)
 local MoonwaveComponents = Components:FindFirstChild("MoonwaveComponents")
 local Class = require(MoonwaveComponents.Class)
 
+
 local Fusion = require(Packages.Fusion)
 local New = Fusion.New
 local Value = Fusion.Value
