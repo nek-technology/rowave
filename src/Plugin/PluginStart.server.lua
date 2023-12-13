@@ -1,7 +1,7 @@
 local Plugin = plugin
 
-local Components = script.Parent.Components
-local Packages = script.Parent.Packages
+local Components = script.Parent.Parent.Components
+local Packages = script.Parent.Parent.Packages
 
 local PluginComponents = Components:FindFirstChild("PluginComponents")
 local Widget = require(PluginComponents.Widget)
@@ -14,7 +14,7 @@ local Label = require(StudioComponents.Label)
 
 local MoonwaveComponents = Components:FindFirstChild("MoonwaveComponents")
 local Class = require(MoonwaveComponents.Class)
-
+local Interface = require(MoonwaveComponents.Interface)
 
 local Fusion = require(Packages.Fusion)
 local New = Fusion.New
@@ -123,7 +123,7 @@ do
 			Id = game:GetService("HttpService"):GenerateGUID(),
 			Name = "Explorer",
 
-			InitialDockTo = Enum.InitialDockState.Float,
+			InitialDockTo = Enum.InitialDockState.Right,
 			InitialEnabled = false,
 			ForceInitialEnabled = false,
 			FloatingSize = Vector2.new(250, 200),
@@ -161,7 +161,16 @@ do
 		})
 	end
 	ExplorerWidget({
-		Class({}, {
+		Class({
+			Children = {
+				Interface({
+					Name = "Status",
+					Fields = {},
+					Badges = {},
+					Description = "An enum value used to represent the Promise's status",
+				}),
+			},
+		}, {
 			ClassName = "MyFirstClass",
 			Description = "This is my first class",
 		}),

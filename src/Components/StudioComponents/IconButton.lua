@@ -53,17 +53,25 @@ return function(props: IconButtonProperties): TextButton
 		Pressed = isPressed,
 	})
 
-	local newBaseButton = BoxBorder {
-		Color = getMotionState(themeProvider:GetColor(props.BorderColorStyle or Enum.StudioStyleGuideColor.CheckedFieldBorder, modifier), "Spring", 40),
+	local newBaseButton = BoxBorder({
+		Color = getMotionState(
+			themeProvider:GetColor(props.BorderColorStyle or Enum.StudioStyleGuideColor.CheckedFieldBorder, modifier),
+			"Spring",
+			40
+		),
 
-		[Children] = New "TextButton" {
+		[Children] = New("TextButton")({
 			Name = "IconButton",
 			Size = UDim2.fromScale(1, 1),
 			Text = "",
-			BackgroundColor3 = getMotionState(themeProvider:GetColor(props.BackgroundColorStyle or Enum.StudioStyleGuideColor.Button, modifier), "Spring", 40),
+			BackgroundColor3 = getMotionState(
+				themeProvider:GetColor(props.BackgroundColorStyle or Enum.StudioStyleGuideColor.Button, modifier),
+				"Spring",
+				40
+			),
 			AutoButtonColor = false,
 
-			[OnEvent "InputBegan"] = function(inputObject)
+			[OnEvent("InputBegan")] = function(inputObject)
 				if not unwrap(isEnabled) then
 					return
 				elseif inputObject.UserInputType == Enum.UserInputType.MouseMovement then
@@ -73,7 +81,7 @@ return function(props: IconButtonProperties): TextButton
 				end
 			end,
 
-			[OnEvent "InputEnded"] = function(inputObject)
+			[OnEvent("InputEnded")] = function(inputObject)
 				if not unwrap(isEnabled) then
 					return
 				elseif inputObject.UserInputType == Enum.UserInputType.MouseMovement then
@@ -82,8 +90,8 @@ return function(props: IconButtonProperties): TextButton
 					isPressed:set(false)
 				end
 			end,
-			
-			[OnEvent "Activated"] = (function()
+
+			[OnEvent("Activated")] = (function()
 				if props.Activated then
 					return function()
 						if unwrap(isEnabled, false) then
@@ -97,19 +105,23 @@ return function(props: IconButtonProperties): TextButton
 			end)(),
 
 			[Children] = {
-				New "ImageLabel" {
+				New("ImageLabel")({
 					Name = "Icon",
 					BackgroundTransparency = 1,
 					Size = UDim2.fromScale(0.8, 0.8),
 					Position = UDim2.fromScale(0.5, 0.5),
 					AnchorPoint = Vector2.new(0.5, 0.5),
 					ScaleType = Enum.ScaleType.Fit,
-					ImageColor3 = getMotionState(themeProvider:GetColor(props.ImageColorStyle or Enum.StudioStyleGuideColor.ButtonText, modifier), "Spring", 40),
+					ImageColor3 = getMotionState(
+						themeProvider:GetColor(props.ImageColorStyle or Enum.StudioStyleGuideColor.ButtonText, modifier),
+						"Spring",
+						40
+					),
 					Image = props.Icon,
-				},
+				}),
 			},
-		}
-	}
+		}),
+	})
 
 	local hydrateProps = stripProps(props, COMPONENT_ONLY_PROPERTIES)
 	return Hydrate(newBaseButton)(hydrateProps)
