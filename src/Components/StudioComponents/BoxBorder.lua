@@ -28,7 +28,7 @@ type BoxBorderProperties = {
 return function(props: BoxBorderProperties): GuiObject
 	local boxProps = props or {}
 	local borderColor = boxProps.Color or themeProvider:GetColor(Enum.StudioStyleGuideColor.Border)
-	
+
 	local hydrateProps = {
 		BorderColor3 = borderColor,
 		BorderMode = Enum.BorderMode.Inset,
@@ -38,29 +38,29 @@ return function(props: BoxBorderProperties): GuiObject
 			return if useCurvedBoxes then 0 else (thickness or 1)
 		end),
 	}
-	
+
 	if unwrap(constants.CurvedBoxes) then
 		local backgroundTransparency = Value(props[Children].BackgroundTransparency)
-		
+
 		hydrateProps = {
 			[Children] = {
-				New "UICorner" {
-					CornerRadius = boxProps.CornerRadius or constants.CornerRadius
-				},
-				
-				New "UIStroke" {
+				New("UICorner")({
+					CornerRadius = boxProps.CornerRadius or constants.CornerRadius,
+				}),
+
+				New("UIStroke")({
 					ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
 					Color = borderColor,
 					Thickness = boxProps.Thickness or 1,
 					Transparency = backgroundTransparency,
-				}
+				}),
 			},
-			
-			[OnChange "BackgroundTransparency"] = function(newTransparency)
+
+			[OnChange("BackgroundTransparency")] = function(newTransparency)
 				backgroundTransparency:set(newTransparency)
 			end,
 		}
 	end
-	
+
 	return Hydrate(props[Children])(hydrateProps)
 end
